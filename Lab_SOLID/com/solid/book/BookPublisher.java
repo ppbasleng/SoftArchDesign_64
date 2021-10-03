@@ -7,7 +7,9 @@ public interface BookPublisher {
     public void printToFile();
 
     public static void main(String[] args) {
-        BookPublisher book = new Book("Tyland", List.of("I", "moved", "here", "recently", "too!"));
-        book.printToFile();
+        Book book = new Book("Tyland", List.of("I", "moved", "here", "recently", "too"));
+        BookPublisher publisher = new BookPrinter(book);
+        publisher.printToFile();
+       
     }
 }
