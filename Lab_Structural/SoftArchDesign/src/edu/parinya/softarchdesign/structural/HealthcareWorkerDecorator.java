@@ -1,7 +1,7 @@
 package edu.parinya.softarchdesign.structural;
 
 public abstract class HealthcareWorkerDecorator extends HealthcareWorker {
-    protected HealthcareServiceable worker;
+    protected HealthcareWorker worker;
 
     HealthcareWorkerDecorator(HealthcareWorker worker) { 
         super(worker);
