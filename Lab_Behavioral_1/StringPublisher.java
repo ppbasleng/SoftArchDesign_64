@@ -28,7 +28,9 @@ public class StringPublisher implements Publisher<String>{
         for(StringSubscription subscription : subscriptions){
             subscription.publish(text);
         }
+        System.out.println("executor is shutting down");
         executor.shutdown();
+        System.out.println("executor is shut down");
     }
     
     

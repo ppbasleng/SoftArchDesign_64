@@ -8,14 +8,14 @@ class Main{
         StringSubscriber number;
         StringSubscriber symbol;
         try {
-            alphabet = new AlphabetSubscriber(64,new FileWriter("alphabet.txt"));
-            number = new NumberSubscriber(64,new FileWriter("number.txt"));
-            symbol = new SymbolSubscriber(64,new FileWriter("symbol.txt"));
+            alphabet = new AlphabetSubscriber(64,new FileWriter("alphabet.txt",true));
+            number = new NumberSubscriber(64,new FileWriter("number.txt",true));
+            symbol = new SymbolSubscriber(64,new FileWriter("symbol.txt",true));
             publisher.subscribe(alphabet);
             publisher.subscribe(number);
             publisher.subscribe(symbol);
 
-            publisher.publish("helloworld123++");
+            publisher.publish("Il0v3S0ft@rch");
             
         } catch (IOException e) {
             

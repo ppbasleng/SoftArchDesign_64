@@ -1,1 +1,3 @@
-helloworld123++
+HelloWorld123+++
+Alphabetonly
+Il0v3S0ft@rch
