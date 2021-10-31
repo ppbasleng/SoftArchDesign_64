@@ -8,8 +8,10 @@ public class StringSubscription implements Subscription {
     private final ExecutorService executor;
     private Future<?> future; // to allow cancellation
     private boolean completed;
+    private String message;
 
     StringSubscription(Subscriber<? super String> subscriber, ExecutorService executor) {
+        // System.out.println(subscriber+"\n"+executor);
         this.subscriber = subscriber;
         this.executor = executor;
     }
@@ -21,11 +23,13 @@ public class StringSubscription implements Subscription {
             if (n < 0) {
                 IllegalArgumentException ex = new IllegalArgumentException();
                 executor.execute(() -> subscriber.onError(ex));
+                
             } else {
                 future = executor.submit(() -> {
-                    subscriber.onNext("TestString");
+                    subscriber.onNext(message);
                     subscriber.onComplete();
                 });
+                
             }
         }
 
@@ -37,6 +41,10 @@ public class StringSubscription implements Subscription {
         if (future != null)
             future.cancel(false);
 
+    }
+
+    public void publish(String text){
+        message = text;
     }
 
 }

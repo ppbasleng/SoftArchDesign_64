@@ -6,7 +6,7 @@ public class SymbolSubscriber extends StringSubscriber{
 
     SymbolSubscriber(long bufferSize, FileWriter writer) {
         super(bufferSize, writer);
-        
+        System.out.println("symbol:"+bufferSize);
     }
 
     @Override
@@ -19,13 +19,17 @@ public class SymbolSubscriber extends StringSubscriber{
 
     @Override
     public void onNext(String item) {
-        System.out.println("Symbol Onnext Triggered");
+        System.out.println("Symbol Onnext Triggered: count="+count);
         if (--count <= 0)
             subscription.request(count = bufferSize - bufferSize / 2);
         try {
-            System.out.println(item);
-            writer.write(item);
-            writer.close();
+            if(item.matches(".*[^a-zA-Z 0-9].*")){
+                System.out.println("symbol:"+item);
+                writer.write(item);
+            }else{
+                System.out.println("symbol is not written");
+            }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

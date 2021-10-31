@@ -6,7 +6,7 @@ public class NumberSubscriber extends StringSubscriber {
 
     NumberSubscriber(long bufferSize, FileWriter writer) {
         super(bufferSize, writer);
-
+        System.out.println("number:"+bufferSize);
     }
 
     @Override
@@ -20,13 +20,17 @@ public class NumberSubscriber extends StringSubscriber {
 
     @Override
     public void onNext(String item) {
-        System.out.println("Number Onnext Triggered");
+        System.out.println("Number Onnext Triggered: count="+count);
         if (--count <= 0)
             subscription.request(count = bufferSize - bufferSize / 2);
         try {
-            System.out.println(item);
-            writer.write(item);
-            writer.close();
+            if(item.matches(".*\\d.*")){
+                System.out.println("number:"+item);
+                writer.write(item);
+            }else{
+                System.out.println("number is not written");
+            }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

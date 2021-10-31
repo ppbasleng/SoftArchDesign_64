@@ -6,7 +6,7 @@ public class AlphabetSubscriber extends StringSubscriber {
 
     AlphabetSubscriber(long bufferSize, FileWriter writer) {
         super(bufferSize, writer);
-
+        System.out.println("alphabet:"+bufferSize);
     }
 
     @Override
@@ -19,15 +19,20 @@ public class AlphabetSubscriber extends StringSubscriber {
 
     @Override
     public void onNext(String item) {
-        System.out.println("Alphabet Onnext Triggered");
+        System.out.println("Alphabet Onnext Triggered: count="+count);
         if (--count <= 0)
             subscription.request(count = bufferSize - bufferSize / 2);
         try {
-            System.out.println(item);
-            writer.write(item);
-            writer.close();
+            
+            if(item.matches(".*[a-zA-Z].*")){
+                System.out.println("alphabet:"+item);
+                writer.write(item);
+            }else{
+                System.out.println("alphabet is not written");
+            }
+            
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
 

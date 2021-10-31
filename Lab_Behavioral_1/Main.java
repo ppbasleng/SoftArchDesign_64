@@ -8,12 +8,15 @@ class Main{
         StringSubscriber number;
         StringSubscriber symbol;
         try {
-            alphabet = new AlphabetSubscriber(32,new FileWriter("alphabet.txt"));
-            number = new NumberSubscriber(32,new FileWriter("number.txt"));
-            symbol = new SymbolSubscriber(32,new FileWriter("symbol.txt"));
+            alphabet = new AlphabetSubscriber(64,new FileWriter("alphabet.txt"));
+            number = new NumberSubscriber(64,new FileWriter("number.txt"));
+            symbol = new SymbolSubscriber(64,new FileWriter("symbol.txt"));
             publisher.subscribe(alphabet);
             publisher.subscribe(number);
             publisher.subscribe(symbol);
+
+            publisher.publish("helloworld123++");
+            
         } catch (IOException e) {
             
             e.printStackTrace();

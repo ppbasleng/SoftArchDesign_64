@@ -1,24 +1,35 @@
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Executors;
+// import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.Flow.Subscriber;
 
 public class StringPublisher implements Publisher<String>{
-    private final ExecutorService executor = ForkJoinPool.commonPool();
-    private boolean subscribed;
+    // private final ExecutorService executor = ForkJoinPool.commonPool();
+    private final ExecutorService executor = Executors.newFixedThreadPool(3);
+    private List<StringSubscription> subscriptions = Collections.synchronizedList(new ArrayList<StringSubscription>());
+    // private boolean subscribed;
 
     @Override
     public void subscribe(Subscriber<? super String> subscriber) {
-        if(subscribed) {
-            subscriber.onError(new IllegalStateException("Subscriber is already subscribed"));
-        }else{
-            subscribed = true;
-            subscriber.onSubscribe(new StringSubscription(subscriber,executor));
-        }
+       
+        StringSubscription subscription = new StringSubscription(subscriber,executor);
+        subscriptions.add(subscription);
+        subscriber.onSubscribe(subscription);
+        
         
     }
 
+    public void publish(String text){
+        for(StringSubscription subscription : subscriptions){
+            subscription.publish(text);
+        }
+        executor.shutdown();
+    }
     
     
 }

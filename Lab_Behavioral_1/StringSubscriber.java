@@ -1,4 +1,5 @@
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 
@@ -20,8 +21,14 @@ public abstract class StringSubscriber implements Subscriber<String> {
 
     @Override
     public void onComplete() {
-        // TODO Auto-generated method stub
-
+        System.out.println("Completed");
+        try {
+            writer.close();
+        } catch (IOException e) {
+  
+            e.printStackTrace();
+        }
     }
 
+    
 }
